@@ -1,0 +1,818 @@
+/* ============================================
+   LibroIdeal — Hoja de estilos principal
+   ============================================ */
+
+:root {
+  --crema: #f6f2e9;
+  --crema-osc: #ece4d2;
+  --dorado: #a98b5d;
+  --dorado-claro: #caa23a;
+  --marron: #3a2e22;
+  --marron-suave: #6b4423;
+  --vino: #7a1f1f;
+  --beige-pie: #d8c4a0;
+  --blanco: #fffaf2;
+  --sombra: 0 6px 18px rgba(58, 46, 34, 0.12);
+  --radio: 4px;
+  --fuente-titulo: "Playfair Display", "Georgia", serif;
+  --fuente-cuerpo: "Source Sans Pro", "Segoe UI", sans-serif;
+  --fuente-eyebrow: "Cormorant Garamond", serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fuente-cuerpo);
+  background: var(--blanco);
+  color: var(--marron);
+  line-height: 1.6;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--fuente-titulo);
+  color: var(--marron);
+  margin: 0 0 0.5em;
+}
+
+/* ---------- Encabezado ---------- */
+.encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 5%;
+  background: var(--crema);
+  border-bottom: 1px solid var(--crema-osc);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--fuente-titulo);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--marron);
+}
+
+.logo .corona {
+  color: var(--dorado-claro);
+  font-size: 1.1rem;
+}
+
+.menu-principal {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.menu-principal a {
+  position: relative;
+  padding: 6px 2px;
+  font-weight: 600;
+  color: var(--marron);
+  transition: color 0.2s ease;
+}
+
+.menu-principal a:hover,
+.menu-principal a:focus-visible {
+  color: var(--vino);
+}
+
+.menu-principal a[aria-current="page"] {
+  color: var(--vino);
+  border-bottom: 2px solid var(--dorado-claro);
+}
+
+.menu-principal .divisor {
+  color: var(--dorado);
+  opacity: 0.6;
+}
+
+.boton-buscar {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+  border: 1px solid #d9c4a5;
+
+  background: rgba(255, 255, 255, 0.7);
+
+  color: #A67C52;
+  font-size: 1rem;
+
+  cursor: pointer;
+
+  transition: all .3s ease;
+}
+
+.boton-buscar:hover {
+  background: #A67C52;
+  color: white;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: var(--marron);
+  cursor: pointer;
+}
+
+/* ---------- Héroe (Inicio) ---------- */
+.hero {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.35),
+      rgba(0, 0, 0, 0.35)),
+    url("../img/inicio.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  min-height: 550px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  border-radius: 20px;
+
+  margin: 20px auto;
+  max-width: 1400px;
+
+  color: white;
+}
+
+/* textos dentro del hero para los títulos*/
+.hero h1,
+.hero p,
+.hero span {
+  color: white;
+}
+
+
+
+.hero-cita {
+  font-family: var(--fuente-eyebrow);
+  font-style: italic;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.divisor-decorativo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 36px auto 30px;
+  width: 80%;
+  color: var(--dorado);
+}
+
+.divisor-decorativo::before,
+.divisor-decorativo::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--dorado);
+  opacity: 0.5;
+}
+
+/* ---------- Botones ---------- */
+.boton {
+  display: inline-block;
+  padding: 12px 26px;
+  border-radius: var(--radio);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.boton-dorado {
+  background: var(--dorado-claro);
+  color: var(--blanco);
+}
+
+.boton-dorado:hover {
+  background: var(--marron-suave);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra);
+}
+
+.boton-borde {
+  background: transparent;
+  border-color: var(--dorado);
+  color: var(--marron);
+}
+
+.boton-borde:hover {
+  background: var(--dorado);
+  color: var(--blanco);
+}
+
+.boton:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+button:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--vino);
+  outline-offset: 2px;
+}
+
+/* ---------- Secciones generales ---------- */
+.contenedor {
+  padding: 0 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  display: inline-block;
+  background: var(--marron);
+  color: var(--blanco);
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border-radius: 2px;
+  margin-bottom: 14px;
+}
+
+.cita-destacada {
+  font-style: italic;
+  color: var(--marron-suave);
+  margin-bottom: 24px;
+}
+
+.redes-sociales {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.redes-sociales a {
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid var(--dorado);
+  border-radius: 50%;
+
+  color: var(--dorado);
+  text-decoration: none;
+  font-size: 1.25rem;
+
+  transition: .3s;
+}
+
+.redes-sociales a:hover {
+  background: var(--dorado);
+  color: white;
+  transform: translateY(-3px);
+}
+
+/* ---------- Tarjetas de libros ---------- */
+.grid-libros {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 26px;
+  margin: 20px 0 50px;
+}
+
+.tarjeta-libro {
+  background: var(--blanco);
+  border-radius: var(--radio);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tarjeta-libro:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra);
+}
+
+.portada-envoltorio {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f5f1ea;
+}
+
+.portada-libro {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.etiqueta-estado {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+
+  background: #3d2a1b;
+  color: white;
+
+  padding: 5px 10px;
+  border-radius: 6px;
+
+  font-size: .75rem;
+  z-index: 2;
+}
+
+.info-libro {
+  padding: 12px 4px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.info-libro .nombre-libro {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.info-libro .autor-libro {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--marron-suave);
+}
+
+.fila-precio {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.precio {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--marron);
+}
+
+.precio.gratis {
+  color: var(--dorado-claro);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.boton-favorito {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--dorado);
+  transition: transform 0.15s ease, color 0.15s ease;
+  line-height: 1;
+}
+
+.boton-favorito.activo {
+  color: var(--vino);
+}
+
+.boton-favorito:hover {
+  transform: scale(1.18);
+}
+
+.etiqueta-estado {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.55);
+  color: var(--blanco);
+}
+
+.portada-envoltorio {
+  position: relative;
+}
+
+/* ---------- Pie de página ---------- */
+.pie {
+  margin-top: 60px;
+  background: var(--beige-pie);
+  color: var(--marron);
+  padding: 38px 5% 24px;
+  border-top: 1px solid rgba(58, 46, 34, 0.15);
+}
+
+.pie-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pie h3 {
+  font-size: 1.05rem;
+  margin-bottom: 10px;
+}
+
+.pie a.enlace-subrayado {
+  text-decoration: underline;
+}
+
+.pie-redes a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.pie-base {
+  text-align: center;
+  font-size: 0.75rem;
+  margin-top: 26px;
+  opacity: 0.75;
+  border-top: 1px solid rgba(58, 46, 34, 0.15);
+  padding-top: 14px;
+}
+
+/* ---------- Buscador y filtros (catálogo) ---------- */
+.barra-herramientas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+  margin: 30px 0 10px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--marron-suave);
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.95rem;
+  padding: 10px 12px;
+  border: 1px solid var(--crema-osc);
+  border-radius: var(--radio);
+  background: var(--crema);
+  color: var(--marron);
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  border-color: var(--dorado);
+  outline: none;
+}
+
+.campo.crece {
+  flex: 1;
+  min-width: 220px;
+}
+
+.chips-filtro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 4px;
+}
+
+.chip {
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--dorado);
+  background: var(--crema);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--marron-suave);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.chip.activo,
+.chip:hover {
+  background: var(--dorado);
+  color: var(--blanco);
+}
+
+.resumen-resultados {
+  font-size: 0.85rem;
+  color: var(--marron-suave);
+  margin: 10px 0 0;
+}
+
+.estado-vacio {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--marron-suave);
+}
+
+.estado-vacio .icono-vacio {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+/* ---------- Formularios (comunidad) ---------- */
+.panel {
+  background: var(--crema);
+  border: 1px solid var(--crema-osc);
+  border-radius: 6px;
+  padding: 28px;
+  margin-bottom: 30px;
+}
+
+.panel h2 {
+  margin-bottom: 6px;
+}
+
+.panel .descripcion-panel {
+  color: var(--marron-suave);
+  font-size: 0.9rem;
+  margin-bottom: 22px;
+}
+
+.grilla-formulario {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.grilla-formulario .columna-completa {
+  grid-column: 1 / -1;
+}
+
+.mensaje-error {
+  color: var(--vino);
+  font-size: 0.78rem;
+  min-height: 16px;
+  display: block;
+  margin-top: 2px;
+}
+
+.acciones-formulario {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.banner-aviso {
+  display: none;
+  padding: 12px 16px;
+  border-radius: var(--radio);
+  font-size: 0.88rem;
+  margin-bottom: 18px;
+  font-weight: 600;
+  align-items: center;
+  gap: 10px;
+}
+
+.banner-aviso.mostrar {
+  display: flex;
+}
+
+.banner-aviso.exito {
+  background: #e6f2e6;
+  color: #2c5e2c;
+  border: 1px solid #a9d3a9;
+}
+
+.banner-aviso.error {
+  background: #fbe7e7;
+  color: var(--vino);
+  border: 1px solid #e3a8a8;
+}
+
+.lista-registros {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tarjeta-registro {
+  background: var(--blanco);
+  border: 1px solid var(--crema-osc);
+  border-radius: var(--radio);
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.tarjeta-registro .cuerpo-registro h4 {
+  margin: 0 0 4px;
+  font-family: var(--fuente-cuerpo);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--marron);
+}
+
+.tarjeta-registro .meta-registro {
+  font-size: 0.75rem;
+  color: var(--marron-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.tarjeta-registro .texto-registro {
+  font-size: 0.85rem;
+  margin-top: 6px;
+}
+
+.boton-eliminar {
+  background: none;
+  border: 1px solid var(--vino);
+  color: var(--vino);
+  border-radius: var(--radio);
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.boton-eliminar:hover {
+  background: var(--vino);
+  color: var(--blanco);
+}
+
+.select-estado {
+  font-size: 0.72rem;
+  padding: 4px 8px;
+  border-radius: 2px;
+  border: 1px solid var(--crema-osc);
+}
+
+.contador-favoritos {
+  font-weight: 700;
+  color: var(--vino);
+}
+
+/* ---------- Secciones de inicio adicionales ---------- */
+.bloque-beneficios {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin: 10px 0 50px;
+}
+
+.tarjeta-beneficio {
+  background: var(--crema);
+  border-radius: 6px;
+  padding: 24px;
+  text-align: center;
+}
+
+.tarjeta-beneficio .icono-beneficio {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.acerca-proyecto {
+  background: var(--marron);
+  color: var(--crema);
+  border-radius: 6px;
+  padding: 36px;
+  margin-bottom: 50px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+}
+
+.acerca-proyecto h2 {
+  color: var(--blanco);
+}
+
+.acerca-proyecto p {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 980px) {
+  .grid-libros {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .menu-principal {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--crema);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 5% 18px;
+    display: none;
+    border-bottom: 1px solid var(--crema-osc);
+    gap: 14px;
+  }
+
+  .menu-principal.abierto {
+    display: flex;
+  }
+
+  .menu-principal .divisor {
+    display: none;
+  }
+
+  .grid-libros {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bloque-beneficios {
+    grid-template-columns: 1fr;
+  }
+
+  .pie-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .grilla-formulario {
+    grid-template-columns: 1fr;
+  }
+
+  .acerca-proyecto {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .grid-libros {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .hero-contenido h1 {
+    font-size: 1.7rem;
+  }
+
+  .encabezado {
+    padding: 12px 4%;
+  }
+}

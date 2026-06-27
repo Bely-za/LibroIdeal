@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LibroIdeal — Encuentra tu próxima lectura</title>
+  <meta name="description"
+    content="LibroIdeal es la comunidad literaria donde lectores comparten, descubren y guardan sus libros favoritos." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Cormorant+Garamond:ital@1&family=Source+Sans+Pro:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+  <header class="encabezado">
+
+    <a href="index.html" class="logo">
+      <span class="corona">&#10022;</span> LibroIdeal
+    </a>
+
+    <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+      &#9776;
+    </button>
+
+    <nav aria-label="Navegación principal">
+      <ul class="menu-principal">
+        <li><a href="index.html" aria-current="page">Inicio</a></li>
+        <li class="divisor">|</li>
+        <li><a href="catalogo.html">Categorías</a></li>
+        <li class="divisor">|</li>
+        <li><a href="comunidad.html">Inscripción</a></li>
+      </ul>
+    </nav>
+    <button class="boton-buscar" aria-label="Ir al buscador del catálogo"
+      onclick="window.location.href='catalogo.html'">
+
+      <i class="fa-solid fa-magnifying-glass"></i>
+
+    </button>
+
+  </header>
+  <main>
+    <!-- Sección visual principal -->
+    <section class="hero">
+      <div class="hero-contenido">
+        <h1>Bienvenido a LibroIdeal</h1>
+        <p class="subtitulo">Encuentra tu próxima lectura</p>
+        <p class="hero-cita">
+          "La lectura es un refugio que siempre tiene las puertas abiertas."
+        </p>
+
+        <div style="margin-top: 26px;">
+          <a href="catalogo.html" class="boton boton-dorado">
+            Explorar catálogo
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="contenedor">
+      <div class="divisor-decorativo">&#10022;</div>
+
+      <!-- Presentación del problema -->
+      <section aria-labelledby="titulo-problema">
+
+        <h2 id="titulo-problema">Leer no debería ser tan difícil</h2>
+        <p class="cita-destacada">Muchos lectores quieren acceso a buenos libros sin gastar de más ni recurrir a páginas
+          dudosas.</p>
+        <p>
+          Encontrar libros que se ajusten a nuestros gustos suele ser complicado: las plataformas tradicionales
+          tienen precios elevados, y muchas páginas gratuitas de internet son inseguras o poco confiables.
+          Además, casi nadie tiene un lugar sencillo donde guardar sus lecturas favoritas o anotar lo que
+          quiere leer después. LibroIdeal nace para resolver justamente eso: una comunidad de lectores que
+          comparte libros, recomendaciones y listas de favoritos en un solo sitio, de forma clara y segura.
+        </p>
+      </section>
+
+      <!-- Público objetivo y propuesta de solución -->
+      <section class="bloque-beneficios" aria-label="Para quién es LibroIdeal y qué ofrece">
+        <div class="tarjeta-beneficio">
+          <span class="icono-beneficio">&#128214;</span>
+          <h3>Para todo lector</h3>
+          <p>Estudiantes, lectores frecuentes y cualquier persona que quiera desarrollar el hábito de la lectura
+            encontrará aquí su lugar.</p>
+        </div>
+        <div class="tarjeta-beneficio">
+          <span class="icono-beneficio">&#128269;</span>
+          <h3>Busca y filtra</h3>
+          <p>Un catálogo con búsqueda instantánea y filtros por género para encontrar tu próxima lectura en segundos.
+          </p>
+        </div>
+        <div class="tarjeta-beneficio">
+          <span class="icono-beneficio">&#10084;</span>
+          <h3>Guarda tus favoritos</h3>
+          <p>Marca libros como favoritos y vuelve a encontrarlos cuando quieras: tu lista se guarda en tu propio
+            navegador.</p>
+        </div>
+      </section>
+
+      <!-- Aqi va la parte de Lo más buscado: contenido dinámico-->
+      <section aria-labelledby="titulo-destacados">
+        <span class="eyebrow">Lo más buscado</span>
+        <h2 id="titulo-destacados">Libros que la comunidad está leyendo</h2>
+        <p class="cita-destacada">"Un espacio seguro para descubrir, explorar y disfrutar la lectura."</p>
+        <div id="contenedor-destacados" class="grid-libros" aria-live="polite">
+          <p>Cargando libros destacados…</p>
+        </div>
+        <div style="text-align:center; margin-top: -20px; margin-bottom: 40px;">
+          <a href="catalogo.html" class="boton boton-borde">Ver catálogo completo</a>
+        </div>
+      </section>
+
+      <!-- Aquí hablaremos un como acerca del proyecto -->
+      <section class="acerca-proyecto" aria-labelledby="titulo-acerca">
+        <div>
+          <h2 id="titulo-acerca">Acerca de LibroIdeal</h2>
+          <p>
+            LibroIdeal es un proyecto académico construido como una comunidad literaria: aquí los lectores
+            comparten información sobre libros, dejan recomendaciones y guardan sus favoritos, todo desde
+            el navegador y sin necesidad de instalar nada.
+          </p>
+        </div>
+        <a href="comunidad.html" class="boton boton-dorado">Únete a la comunidad</a>
+      </section>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <div class="pie-grid">
+
+      <div>
+        <h3>Contacto</h3>
+        <p>LibroIdeal</p>
+        <p>Correo:
+          <a href="mailto:libroidealCR@gmail.com">
+            libroidealCR@gmail.com
+          </a>
+        </p>
+        <p>
+          <a href="comunidad.html" class="enlace-subrayado">
+            Sobre Nosotros
+          </a>
+        </p>
+        <p>Alajuela, Costa Rica</p>
+      </div>
+
+      <div class="pie-redes">
+        <div class="redes-sociales">
+          <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+
+          <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="pie-base">
+      &copy; 2026 LibroIdeal. Proyecto académico — ISW-521 Programación en Ambiente Web I.
+    </p>
+  </footer>
+  <script src="js/utilidades.js"></script>
+  <script src="js/inicio.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comunidad — LibroIdeal</title>
+  <meta name="description"
+    content="Inscríbete, comparte un libro y deja tus recomendaciones en la comunidad LibroIdeal." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Cormorant+Garamond:ital@1&family=Source+Sans+Pro:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+  <header class="encabezado">
+    <a href="index.html" class="logo">
+      <span class="corona">&#10022;</span> LibroIdeal
+    </a>
+
+    <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+      &#9776;
+    </button>
+
+    <nav aria-label="Navegación principal">
+      <ul class="menu-principal">
+        <li><a href="index.html">Inicio</a></li>
+        <li class="divisor">|</li>
+        <li><a href="catalogo.html">Categorías</a></li>
+        <li class="divisor">|</li>
+        <li><a href="comunidad.html" aria-current="page">Inscripción</a></li>
+      </ul>
+    </nav>
+
+    <button class="boton-buscar" aria-label="Ir al catálogo" onclick="window.location.href='catalogo.html'">
+
+      <i class="fa-solid fa-magnifying-glass"></i>
+
+    </button>
+  </header>
+
+  <main class="contenedor" style="margin-top:30px;">
+    <span class="eyebrow">Comunidad</span>
+    <h1>Únete y comparte tu próxima lectura</h1>
+    <p class="cita-destacada">Inscríbete, comparte un libro que tengas disponible y deja recomendaciones para otros
+      lectores.</p>
+
+    <!-- Inscripción simulada -->
+    <section class="panel" id="iniciar-sesion" aria-labelledby="titulo-inscripcion">
+      <h2 id="titulo-inscripcion">Inscripción</h2>
+      <p class="descripcion-panel">Crea tu perfil de lector. Tus datos se guardan únicamente en este navegador.</p>
+
+      <div class="banner-aviso" id="aviso-inscripcion" role="status"></div>
+
+      <form id="formulario-inscripcion" novalidate>
+        <div class="grilla-formulario">
+          <div class="campo">
+            <label for="nombre-usuario">Nombre completo</label>
+            <input type="text" id="nombre-usuario" name="nombre" required minlength="3" />
+            <span class="mensaje-error" id="error-nombre-usuario"></span>
+          </div>
+          <div class="campo">
+            <label for="correo-usuario">Correo electrónico</label>
+            <input type="email" id="correo-usuario" name="correo" required />
+            <span class="mensaje-error" id="error-correo-usuario"></span>
+          </div>
+          <div class="campo">
+            <label for="genero-favorito">Género literario favorito</label>
+            <select id="genero-favorito" name="generoFavorito" required>
+              <option value="">Selecciona una opción</option>
+              <option>Clasico</option>
+              <option>Fantasia</option>
+              <option>Drama</option>
+              <option>Ciencia Ficcion</option>
+              <option>Terror</option>
+              <option>Autoayuda</option>
+              <option>No Ficcion</option>
+              <option>Infantil</option>
+              <option>Otro</option>
+            </select>
+            <span class="mensaje-error" id="error-genero-favorito"></span>
+          </div>
+        </div>
+        <div class="acciones-formulario">
+          <button type="submit" class="boton boton-dorado">Crear mi perfil</button>
+        </div>
+      </form>
+
+      <div id="perfil-guardado" style="margin-top:18px;"></div>
+    </section>
+
+    <!-- Compartir un libro  -->
+    <section class="panel" aria-labelledby="titulo-compartir">
+      <h2 id="titulo-compartir">Comparte un libro con la comunidad</h2>
+      <p class="descripcion-panel">
+        Registra los datos del libro que quieres compartir.
+      </p>
+
+      <div class="banner-aviso" id="aviso-libro" role="status"></div>
+
+      <form id="formulario-libro" novalidate>
+        <div class="grilla-formulario">
+          <div class="campo">
+            <label for="titulo-libro">Título del libro</label>
+            <input type="text" id="titulo-libro" required minlength="2" />
+            <span class="mensaje-error" id="error-titulo-libro"></span>
+          </div>
+          <div class="campo">
+            <label for="autor-libro">Autor</label>
+            <input type="text" id="autor-libro" required minlength="2" />
+            <span class="mensaje-error" id="error-autor-libro"></span>
+          </div>
+          <div class="campo">
+            <label for="genero-libro">Género</label>
+            <select id="genero-libro" required>
+              <option value="">Selecciona una opción</option>
+              <option>Clasico</option>
+              <option>Fantasia</option>
+              <option>Drama</option>
+              <option>Ciencia Ficcion</option>
+              <option>Terror</option>
+              <option>Autoayuda</option>
+              <option>No Ficcion</option>
+              <option>Infantil</option>
+              <option>Otro</option>
+            </select>
+            <span class="mensaje-error" id="error-genero-libro"></span>
+          </div>
+          <div class="campo">
+            <label for="formato-libro">Formato</label>
+            <select id="formato-libro" required>
+              <option value="">Selecciona una opción</option>
+              <option>PDF</option>
+              <option>EPUB</option>
+            </select>
+            <span class="mensaje-error" id="error-formato-libro"></span>
+          </div>
+          <div class="campo columna-completa">
+            <label for="enlace-libro">Enlace de descarga (legal y seguro)</label>
+            <input type="url" id="enlace-libro" placeholder="https://..." required />
+            <span class="mensaje-error" id="error-enlace-libro"></span>
+          </div>
+          <div class="campo columna-completa">
+            <label for="descripcion-libro">Descripción breve</label>
+            <textarea id="descripcion-libro" rows="3" required minlength="10"></textarea>
+            <span class="mensaje-error" id="error-descripcion-libro"></span>
+          </div>
+        </div>
+        <div class="acciones-formulario">
+          <button type="submit" class="boton boton-dorado">Compartir libro</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Mis libros compartidos -->
+    <section aria-labelledby="titulo-mis-libros" style="margin-bottom:40px;">
+      <h2 id="titulo-mis-libros">Libros que has compartido</h2>
+      <p class="descripcion-panel" style="margin-bottom:14px;">Estos libros ya aparecen también en el catálogo general.
+      </p>
+      <div id="lista-libros-comunidad" class="lista-registros"></div>
+      <p id="vacio-libros-comunidad" class="estado-vacio" hidden>Aún no has compartido ningún libro.</p>
+    </section>
+
+    <section aria-labelledby="titulo-lista-recomendaciones" style="margin-bottom:50px;">
+      <h2 id="titulo-lista-recomendaciones">Recomendaciones de la comunidad</h2>
+      <div id="lista-recomendaciones" class="lista-registros"></div>
+      <p id="vacio-recomendaciones" class="estado-vacio" hidden>Todavía no hay recomendaciones. ¡Sé la primera persona
+        en publicar una!</p>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="pie-grid">
+
+      <div>
+        <h3>Contacto</h3>
+        <p>LibroIdeal</p>
+        <p>Correo:
+          <a href="mailto:libroidealCR@gmail.com">
+            libroidealCR@gmail.com
+          </a>
+        </p>
+        <p>
+          <a href="comunidad.html" class="enlace-subrayado">
+            Sobre Nosotros
+          </a>
+        </p>
+        <p>Alajuela, Costa Rica</p>
+      </div>
+
+      <div class="pie-redes">
+        <div class="redes-sociales">
+          <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+
+          <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="pie-base">
+      &copy; 2026 LibroIdeal. Proyecto académico — ISW-521 Programación en Ambiente Web I.
+    </p>
+  </footer>
+
+  <script src="js/utilidades.js"></script>
+  <script src="js/comunidad.js"></script>
+</body>
+
+</html>

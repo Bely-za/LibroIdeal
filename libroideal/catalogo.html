@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogo — LibroIdeal</title>
+  <meta name="description" content="Explora, busca y filtra el catálogo de libros de la comunidad LibroIdeal." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Cormorant+Garamond:ital@1&family=Source+Sans+Pro:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+</head>
+
+<body>
+
+  <header class="encabezado">
+    <a href="index.html" class="logo">
+      <span class="corona">&#10022;</span> LibroIdeal
+    </a>
+    <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">&#9776;</button>
+    <nav aria-label="Navegación principal">
+      <ul class="menu-principal">
+        <li><a href="index.html">Inicio</a></li>
+        <li class="divisor">|</li>
+        <li><a href="catalogo.html" aria-current="page">Categorías</a></li>
+        <li class="divisor">|</li>
+        <li><a href="comunidad.html">Inscripción</a></li>
+      </ul>
+    </nav>
+    <button class="boton-buscar" aria-label="Ir al campo de búsqueda"
+      onclick="document.getElementById('campo-busqueda').focus()">
+
+      <i class="fa-solid fa-magnifying-glass"></i>
+
+    </button>
+  </header>
+
+  <main class="contenedor">
+    <section style="margin-top: 30px;">
+      <span class="eyebrow">Catálogo</span>
+      <h1>Explora el catálogo de la comunidad</h1>
+      <p class="cita-destacada">Busca por título o autor, filtra por género y guarda en favoritos lo que quieras leer.
+      </p>
+    </section>
+
+    <!-- Búsqueda instantánea y filtro de género -->
+    <section class="barra-herramientas" aria-label="Buscador y filtros">
+      <div class="campo crece">
+        <label for="campo-busqueda">Buscar por título o autor</label>
+        <input type="search" id="campo-busqueda" placeholder="Ej: Austen, Crepúsculo, Sapiens..." autocomplete="off" />
+      </div>
+      <div class="campo">
+        <label for="orden-resultados">Ordenar por</label>
+        <select id="orden-resultados">
+          <option value="relevancia">Más recientes</option>
+          <option value="az">Título: A-Z</option>
+          <option value="za">Título: Z-A</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label>&nbsp;</label>
+        <button type="button" id="boton-solo-favoritos" class="boton boton-borde">Ver solo favoritos</button>
+      </div>
+    </section>
+
+    <div class="chips-filtro" id="contenedor-generos" role="group" aria-label="Filtrar por género">
+      <button class="chip activo" data-genero="todos">Todos</button>
+    </div>
+
+    <p class="resumen-resultados" id="resumen-resultados" aria-live="polite"></p>
+
+    <section aria-label="Resultados del catálogo">
+      <div id="contenedor-catalogo" class="grid-libros" aria-live="polite">
+        <p>Cargando catálogo…</p>
+      </div>
+      <div id="estado-vacio" class="estado-vacio" hidden>
+        <span class="icono-vacio">&#128214;</span>
+        <h3>No encontramos libros con esos criterios</h3>
+        <p>Prueba con otra palabra clave o quita algún filtro para ver más resultados.</p>
+      </div>
+    </section>
+
+    <!-- Recomendaciones -->
+    <section class="panel" aria-labelledby="titulo-recomendaciones">
+      <h2 id="titulo-recomendaciones">Deja tu recomendación</h2>
+      <p class="descripcion-panel">Cuéntale a la comunidad por qué vale la pena leer un libro.</p>
+
+      <div class="banner-aviso" id="aviso-recomendacion" role="status"></div>
+
+      <form id="formulario-recomendacion" novalidate>
+        <div class="grilla-formulario">
+          <div class="campo">
+            <label for="titulo-recomendado">Título del libro</label>
+            <input type="text" id="titulo-recomendado" required minlength="2" />
+            <span class="mensaje-error" id="error-titulo-recomendado"></span>
+          </div>
+          <div class="campo">
+            <label for="autor-recomendado">Autor</label>
+            <input type="text" id="autor-recomendado" required minlength="2" />
+            <span class="mensaje-error" id="error-autor-recomendado"></span>
+          </div>
+          <div class="campo columna-completa">
+            <label for="texto-recomendacion">Tu recomendación</label>
+            <textarea id="texto-recomendacion" rows="3" required minlength="10"></textarea>
+            <span class="mensaje-error" id="error-texto-recomendacion"></span>
+          </div>
+        </div>
+        <div class="acciones-formulario">
+          <button type="submit" class="boton boton-dorado">Publicar recomendación</button>
+          <button type="button" id="boton-limpiar-recomendaciones" class="boton boton-borde">Limpiar todas</button>
+        </div>
+      </form>
+    </section>
+  </main>
+  <footer class="pie">
+    <div class="pie-grid">
+
+      <div>
+        <h3>Contacto</h3>
+        <p>LibroIdeal</p>
+        <p>Correo:
+          <a href="mailto:libroidealCR@gmail.com">
+            libroidealCR@gmail.com
+          </a>
+        </p>
+        <p>
+          <a href="comunidad.html" class="enlace-subrayado">
+            Sobre Nosotros
+          </a>
+        </p>
+        <p>Alajuela, Costa Rica</p>
+      </div>
+
+      <div class="pie-redes">
+        <div class="redes-sociales">
+          <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+
+          <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="pie-base">
+      &copy; 2026 LibroIdeal. Proyecto académico — ISW-521 Programación en Ambiente Web I.
+    </p>
+  </footer>
+  <script src="js/utilidades.js"></script>
+  <script src="js/catalogo.js"></script>
+</body>
+
+</html>
