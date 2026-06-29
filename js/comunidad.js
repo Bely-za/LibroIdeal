@@ -1,365 +1,211 @@
-// ============================================
-// LibroIdeal — comunidad.js
-// Página de Registro/Gestión de información:
-// inscripción de usuario, compartir libros y
-// recomendaciones, todo con validación y
-// persistencia en localStorage.
-// ============================================
+"use strict";
 
+// ============================================
+// LIBRO IDEAL - CONFIGURACIÓN BASE
+// ============================================
 const CLAVE_PERFIL = "libroideal_perfil";
+const CLAVE_LIBROS_COMUNIDAD = "libroideal_libros";
+const CLAVE_RECOMENDACIONES = "libroideal_recomendaciones";
 
-// ---------- Helpers de validación y UI ----------
-function mostrarError(idCampoError, mensaje) {
-  const span = document.getElementById(idCampoError);
-  if (span) span.textContent = mensaje;
+// ============================================
+// HELPERS LOCALSTORAGE
+// ============================================
+function leerLista(clave) {
+  return JSON.parse(localStorage.getItem(clave) || "[]");
 }
 
-function limpiarErrores(idsErrores) {
-  idsErrores.forEach((id) => mostrarError(id, ""));
+function guardarLista(clave, lista) {
+  localStorage.setItem(clave, JSON.stringify(lista));
 }
 
-function mostrarAviso(idAviso, mensaje, tipo) {
-  const aviso = document.getElementById(idAviso);
-  aviso.textContent = mensaje;
-  aviso.className = `banner-aviso mostrar ${tipo}`;
+// ============================================
+// UI HELPERS
+// ============================================
+function mostrarError(id, mensaje) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.textContent = mensaje;
+    el.style.color = "#7a1f1f"; // Fuerza el color rojo directamente
+  }
+}
+
+function limpiarErrores(ids) {
+  ids.forEach(id => mostrarError(id, ""));
+}
+
+function mostrarAviso(id, mensaje, tipo) {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  el.textContent = mensaje;
+  // Se añade siempre 'error' o 'exito' dinámicamente
+  el.className = `banner-aviso mostrar ${tipo}`;
+
   setTimeout(() => {
-    aviso.classList.remove("mostrar");
+    el.classList.remove("mostrar");
   }, 4000);
 }
 
-function formatearFecha(fechaISO) {
-  const fecha = new Date(fechaISO);
-  return fecha.toLocaleDateString("es-CR", { day: "2-digit", month: "short", year: "numeric" });
-}
-
 // ============================================
-// 1. INSCRIPCIÓN DE USUARIO
+// 1. CONTROL DE SESIÓN Y REGISTRO
 // ============================================
-
 function validarInscripcion(datos) {
   let valido = true;
-  limpiarErrores(["error-nombre-usuario", "error-correo-usuario", "error-genero-favorito"]);
 
-  if (datos.nombre.trim().length < 3) {
-    mostrarError("error-nombre-usuario", "Escribe tu nombre completo (mínimo 3 letras).");
+  limpiarErrores([
+    "error-nombre-usuario",
+    "error-correo-usuario",
+    "error-password-usuario",
+    "error-confirmar-password",
+    "error-genero-favorito"
+  ]);
+
+  if (datos.nombre.length < 3) {
+    mostrarError("error-nombre-usuario", "Mínimo 3 letras.");
     valido = false;
   }
-  const patronCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!patronCorreo.test(datos.correo)) {
-    mostrarError("error-correo-usuario", "Ingresa un correo electrónico válido.");
+
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!regex.test(datos.correo)) {
+    mostrarError("error-correo-usuario", "Correo inválido.");
     valido = false;
   }
+
+  if (datos.password.length < 6) {
+    mostrarError("error-password-usuario", "Mínimo 6 caracteres.");
+    valido = false;
+  }
+
+  if (datos.password !== datos.confirmar) {
+    mostrarError("error-confirmar-password", "No coinciden.");
+    valido = false;
+  }
+
   if (!datos.generoFavorito) {
-    mostrarError("error-genero-favorito", "Selecciona tu género literario favorito.");
+    mostrarError("error-genero-favorito", "Selecciona un género.");
     valido = false;
   }
+
   return valido;
 }
 
 function mostrarPerfilGuardado() {
   const contenedor = document.getElementById("perfil-guardado");
-  const datos = JSON.parse(localStorage.getItem(CLAVE_PERFIL) || "null");
+  const formInscripcion = document.getElementById("formulario-inscripcion");
+  const formLibro = document.getElementById("formulario-libro");
+  
+  if (!contenedor) return;
+
+  const datos = JSON.parse(localStorage.getItem(CLAVE_PERFIL));
+
   if (!datos) {
+    // --- USUARIO NO LOGUEADO ---
     contenedor.innerHTML = "";
+    contenedor.style.display = "none";
+    
+    // Mostrar Registro si existe
+    if (formInscripcion) formInscripcion.closest('.panel').style.display = "block";
+    
+    // Ocultar sección de compartir libros
+    if (formLibro) formLibro.closest('.panel').style.display = "none";
     return;
   }
-  contenedor.innerHTML = `
+
+  // --- USUARIO LOGUEADO ---
+  contenedor.style.display = "block";
+  
+  // Ocultar sección de Registro por completo
+  if (formInscripcion) formInscripcion.closest('.panel').style.display = "none";
+  
+  // Mostrar la sección de Compartir un Libro por completo
+  if (formLibro) formLibro.closest('.panel').style.display = "block";
+
+ contenedor.innerHTML = `
     <div class="tarjeta-registro">
       <div class="cuerpo-registro">
-        <h4>${datos.nombre}</h4>
-        <span class="meta-registro">${datos.correo} · Le gusta: ${datos.generoFavorito}</span>
+        <h4><i class="fa-solid fa-user icono-usuario-perfil"></i> ${datos.nombre}</h4>
+        <span class="meta-registro">
+          ${datos.correo}<br>
+          Género Favorito: ${datos.generoFavorito}<br>
+          Estado: <strong>Sesión activa</strong>
+        </span>
       </div>
-      <button class="boton-eliminar" id="boton-cerrar-perfil">Cerrar sesión</button>
+      <button class="boton-eliminar" id="cerrar-sesion">Cerrar sesión</button>
     </div>
   `;
-  document.getElementById("boton-cerrar-perfil").addEventListener("click", () => {
+
+  document.getElementById("cerrar-sesion").addEventListener("click", () => {
     localStorage.removeItem(CLAVE_PERFIL);
     mostrarPerfilGuardado();
-    document.getElementById("formulario-inscripcion").reset();
-    mostrarAviso("aviso-inscripcion", "Sesión cerrada. Tus datos fueron eliminados de este navegador.", "exito");
+    if (formInscripcion) formInscripcion.reset();
+    mostrarAviso("aviso-inscripcion", "Sesión cerrada.", "error"); // Alertas en rojo al cerrar
   });
 }
 
 function inicializarInscripcion() {
   const formulario = document.getElementById("formulario-inscripcion");
+  if (!formulario) return;
 
-  // Si ya existe un perfil guardado, lo mostramos al cargar la página.
   mostrarPerfilGuardado();
 
-  formulario.addEventListener("submit", (evento) => {
-    evento.preventDefault();
+  formulario.addEventListener("submit", (e) => {
+    e.preventDefault();
+
     const datos = {
-      nombre: document.getElementById("nombre-usuario").value,
-      correo: document.getElementById("correo-usuario").value,
-      generoFavorito: document.getElementById("genero-favorito").value,
+      nombre: document.getElementById("nombre-usuario").value.trim(),
+      correo: document.getElementById("correo-usuario").value.trim(),
+      password: document.getElementById("password-usuario").value,
+      confirmar: document.getElementById("confirmar-password").value,
+      generoFavorito: document.getElementById("genero-favorito").value
     };
 
     if (!validarInscripcion(datos)) {
-      mostrarAviso("aviso-inscripcion", "Revisa los campos marcados antes de continuar.", "error");
+      mostrarAviso("aviso-inscripcion", "Revisa los campos en rojo.", "error");
       return;
     }
 
     localStorage.setItem(CLAVE_PERFIL, JSON.stringify(datos));
-    mostrarAviso("aviso-inscripcion", `¡Bienvenida/o, ${datos.nombre}! Tu perfil se guardó correctamente.`, "exito");
+    
+    // Refrescar la interfaz para que oculte/muestre los paneles
     mostrarPerfilGuardado();
     formulario.reset();
   });
-
-  // Validación en tiempo real
-  document.getElementById("nombre-usuario").addEventListener("input", (e) => {
-    mostrarError("error-nombre-usuario", e.target.value.trim().length < 3 ? "Mínimo 3 letras." : "");
-  });
-  document.getElementById("correo-usuario").addEventListener("input", (e) => {
-    const patronCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    mostrarError("error-correo-usuario", patronCorreo.test(e.target.value) ? "" : "Formato de correo inválido.");
-  });
 }
 
 // ============================================
-// 2. COMPARTIR LIBROS (datos + enlace, sin archivo real)
+// 2. COMPARTIR LIBROS
 // ============================================
-
-function validarLibro(datos) {
-  let valido = true;
-  limpiarErrores([
-    "error-titulo-libro", "error-autor-libro", "error-genero-libro",
-    "error-formato-libro", "error-enlace-libro", "error-descripcion-libro",
-  ]);
-
-  if (datos.titulo.trim().length < 2) { mostrarError("error-titulo-libro", "Escribe el título del libro."); valido = false; }
-  if (datos.autor.trim().length < 2) { mostrarError("error-autor-libro", "Escribe el nombre del autor."); valido = false; }
-  if (!datos.genero) { mostrarError("error-genero-libro", "Selecciona un género."); valido = false; }
-  if (!datos.formato) { mostrarError("error-formato-libro", "Selecciona un formato."); valido = false; }
-  try {
-    new URL(datos.enlace);
-  } catch {
-    mostrarError("error-enlace-libro", "Ingresa una URL válida (debe iniciar con https://)."); valido = false;
-  }
-  if (datos.descripcion.trim().length < 10) { mostrarError("error-descripcion-libro", "Escribe al menos 10 caracteres."); valido = false; }
-
-  return valido;
-}
-
-function coloresAleatorios() {
-  const paletas = [
-    ["#cfe3ee", "#5b87a3"], ["#3a1f1f", "#7a1f1f"], ["#2e1f3a", "#caa83d"],
-    ["#e8dcc0", "#a98b5d"], ["#f2d9c4", "#caa23a"], ["#caa23a", "#6b4423"],
-  ];
-  return paletas[Math.floor(Math.random() * paletas.length)];
-}
-
-function renderizarLibrosComunidad() {
-  const lista = document.getElementById("lista-libros-comunidad");
-  const vacio = document.getElementById("vacio-libros-comunidad");
-  const libros = leerLista(CLAVE_LIBROS_COMUNIDAD);
-
-  lista.innerHTML = "";
-  if (libros.length === 0) {
-    vacio.hidden = false;
-    return;
-  }
-  vacio.hidden = true;
-
-  libros.forEach((libro) => {
-    const tarjeta = document.createElement("div");
-    tarjeta.className = "tarjeta-registro";
-    tarjeta.innerHTML = `
-      <div class="cuerpo-registro">
-        <h4>${libro.titulo} <span class="meta-registro">— ${libro.autor}</span></h4>
-        <span class="meta-registro">${libro.genero} · ${libro.formato} · compartido el ${formatearFecha(libro.fechaCreacion)}</span>
-        <p class="texto-registro">${libro.descripcion}</p>
-        <p class="texto-registro"><a href="${libro.enlace}" target="_blank" rel="noopener noreferrer">Ver enlace de descarga &#8599;</a></p>
-      </div>
-      <button class="boton-eliminar" data-id="${libro.id}">Eliminar</button>
-    `;
-    lista.appendChild(tarjeta);
-  });
-
-  lista.querySelectorAll(".boton-eliminar").forEach((boton) => {
-    boton.addEventListener("click", () => {
-      const id = Number(boton.dataset.id);
-      const nuevaLista = leerLista(CLAVE_LIBROS_COMUNIDAD).filter((libro) => libro.id !== id);
-      guardarLista(CLAVE_LIBROS_COMUNIDAD, nuevaLista);
-      renderizarLibrosComunidad();
-    });
-  });
-}
-
 function inicializarFormularioLibro() {
   const formulario = document.getElementById("formulario-libro");
-  
-  const usuario = JSON.parse(localStorage.getItem(CLAVE_PERFIL));
-const aviso = document.getElementById("aviso-libro");
+  if (!formulario) return;
 
-function mostrarAviso(id, mensaje, tipo) {
-  const aviso = document.getElementById(id);
+  formulario.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-  aviso.textContent = mensaje;
-
-  aviso.classList.remove("exito", "error");
-  aviso.classList.add(tipo);
-
-  aviso.classList.add("mostrar"); 
-}
-if (!usuario) {
-  formulario.style.display = "none";
-
-  mostrarAviso(
-    "aviso-libro",
-    "Debes crear un perfil antes de compartir un libro con la comunidad.",
-    "error"
-  );
-
-  return;
-}
-
-  formulario.addEventListener("submit", (evento) => {
-    evento.preventDefault();
-    const [color1, color2] = coloresAleatorios();
-    const datos = {
+    const libro = {
+      id: Date.now(),
       titulo: document.getElementById("titulo-libro").value,
       autor: document.getElementById("autor-libro").value,
       genero: document.getElementById("genero-libro").value,
       formato: document.getElementById("formato-libro").value,
       enlace: document.getElementById("enlace-libro").value,
       descripcion: document.getElementById("descripcion-libro").value,
+      fechaCreacion: new Date().toISOString()
     };
 
-    if (!validarLibro(datos)) {
-      mostrarAviso("aviso-libro", "Hay campos por corregir antes de compartir el libro.", "error");
-      return;
-    }
+    const libros = leerLista(CLAVE_LIBROS_COMUNIDAD);
+    libros.push(libro);
+    guardarLista(CLAVE_LIBROS_COMUNIDAD, libros);
 
-    const librosActuales = leerLista(CLAVE_LIBROS_COMUNIDAD);
-    librosActuales.push({
-      id: Date.now(),
-      titulo: datos.titulo,
-      autor: datos.autor,
-      genero: datos.genero,
-      estado: "Disponible",
-      anno: new Date().getFullYear(),
-      formato: datos.formato,
-      precio: 0,
-      descripcion: datos.descripcion,
-      enlace: datos.enlace,
-      color1, color2,
-      usuario: usuario.nombre,
-      fechaCreacion: new Date().toISOString(),
-    });
-    guardarLista(CLAVE_LIBROS_COMUNIDAD, librosActuales);
-
-    mostrarAviso("aviso-libro", "¡Gracias! Tu libro ya aparece en el catálogo de la comunidad.", "exito");
+    mostrarAviso("aviso-libro", "¡Libro publicado con éxito!", "exito");
     formulario.reset();
-    renderizarLibrosComunidad();
   });
 }
 
 // ============================================
-// 3. RECOMENDACIONES
-// ============================================
-
-function validarRecomendacion(datos) {
-  let valido = true;
-  limpiarErrores(["error-titulo-recomendado", "error-autor-recomendado", "error-texto-recomendacion"]);
-
-  if (datos.titulo.trim().length < 2) { mostrarError("error-titulo-recomendado", "Escribe el título del libro."); valido = false; }
-  if (datos.autor.trim().length < 2) { mostrarError("error-autor-recomendado", "Escribe el nombre del autor."); valido = false; }
-  if (datos.texto.trim().length < 10) { mostrarError("error-texto-recomendacion", "Cuéntanos un poco más (mínimo 10 caracteres)."); valido = false; }
-
-  return valido;
-}
-
-function renderizarRecomendaciones() {
-  const lista = document.getElementById("lista-recomendaciones");
-  const vacio = document.getElementById("vacio-recomendaciones");
-  const recomendaciones = leerLista(CLAVE_RECOMENDACIONES);
-
-  lista.innerHTML = "";
-  if (recomendaciones.length === 0) {
-    vacio.hidden = false;
-    return;
-  }
-  vacio.hidden = true;
-
-  recomendaciones
-    .slice()
-    .reverse()
-    .forEach((recomendacion) => {
-      const tarjeta = document.createElement("div");
-      tarjeta.className = "tarjeta-registro";
-      tarjeta.innerHTML = `
-        <div class="cuerpo-registro">
-          <h4>${recomendacion.titulo} <span class="meta-registro">— ${recomendacion.autor}</span></h4>
-          <span class="meta-registro">${formatearFecha(recomendacion.fecha)}</span>
-          <p class="texto-registro">${recomendacion.texto}</p>
-        </div>
-        <button class="boton-eliminar" data-id="${recomendacion.id}">Eliminar</button>
-      `;
-      lista.appendChild(tarjeta);
-    });
-
-  lista.querySelectorAll(".boton-eliminar").forEach((boton) => {
-    boton.addEventListener("click", () => {
-      const id = Number(boton.dataset.id);
-      const nuevaLista = leerLista(CLAVE_RECOMENDACIONES).filter((r) => r.id !== id);
-      guardarLista(CLAVE_RECOMENDACIONES, nuevaLista);
-      renderizarRecomendaciones();
-    });
-  });
-}
-
-function inicializarFormularioRecomendacion() {
-  const formulario = document.getElementById("formulario-recomendacion");
-
-  formulario.addEventListener("submit", (evento) => {
-    evento.preventDefault();
-    const datos = {
-      titulo: document.getElementById("titulo-recomendado").value,
-      autor: document.getElementById("autor-recomendado").value,
-      texto: document.getElementById("texto-recomendacion").value,
-    };
-
-    if (!validarRecomendacion(datos)) {
-      mostrarAviso("aviso-recomendacion", "Completa correctamente el formulario antes de publicar.", "error");
-      return;
-    }
-
-    const lista = leerLista(CLAVE_RECOMENDACIONES);
-    lista.push({
-      id: Date.now(),
-      titulo: datos.titulo,
-      autor: datos.autor,
-      texto: datos.texto,
-      fecha: new Date().toISOString(),
-    });
-    guardarLista(CLAVE_RECOMENDACIONES, lista);
-
-    mostrarAviso("aviso-recomendacion", "Tu recomendación fue publicada. ¡Gracias por compartirla!", "exito");
-    formulario.reset();
-    renderizarRecomendaciones();
-  });
-
-  document.getElementById("boton-limpiar-recomendaciones").addEventListener("click", () => {
-    const lista = leerLista(CLAVE_RECOMENDACIONES);
-    if (lista.length === 0) {
-      mostrarAviso("aviso-recomendacion", "No hay recomendaciones que limpiar.", "error");
-      return;
-    }
-    const confirmar = confirm("¿Seguro que deseas eliminar todas tus recomendaciones? Esta acción no se puede deshacer.");
-    if (!confirmar) return;
-    guardarLista(CLAVE_RECOMENDACIONES, []);
-    renderizarRecomendaciones();
-    mostrarAviso("aviso-recomendacion", "Todas las recomendaciones fueron eliminadas.", "exito");
-  });
-}
-
-// ============================================
-// Inicialización general de la página
+// CARGA DEL DOM
 // ============================================
 document.addEventListener("DOMContentLoaded", () => {
   inicializarInscripcion();
   inicializarFormularioLibro();
-  inicializarFormularioRecomendacion();
-  renderizarLibrosComunidad();
-  renderizarRecomendaciones();
 });

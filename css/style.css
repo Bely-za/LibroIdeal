@@ -119,17 +119,12 @@ h3 {
 .boton-buscar {
   width: 42px;
   height: 42px;
-
   border-radius: 50%;
   border: 1px solid #d9c4a5;
-
   background: rgba(255, 255, 255, 0.7);
-
   color: #A67C52;
   font-size: 1rem;
-
   cursor: pointer;
-
   transition: all .3s ease;
 }
 
@@ -150,38 +145,27 @@ h3 {
 /* ---------- Héroe (Inicio) ---------- */
 .hero {
   background-image:
-    linear-gradient(rgba(0, 0, 0, 0.35),
-      rgba(0, 0, 0, 0.35)),
+    linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
     url("../img/inicio.png");
-
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
   min-height: 550px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   text-align: center;
-
   border-radius: 20px;
-
   margin: 20px auto;
   max-width: 1400px;
-
   color: white;
 }
 
-/* textos dentro del hero para los títulos*/
 .hero h1,
 .hero p,
 .hero span {
   color: white;
 }
-
-
 
 .hero-cita {
   font-family: var(--fuente-eyebrow);
@@ -294,18 +278,14 @@ textarea:focus-visible {
 .redes-sociales a {
   width: 46px;
   height: 46px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border: 2px solid var(--dorado);
   border-radius: 50%;
-
   color: var(--dorado);
   text-decoration: none;
   font-size: 1.25rem;
-
   transition: .3s;
 }
 
@@ -351,21 +331,6 @@ textarea:focus-visible {
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-.etiqueta-estado {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-
-  background: #3d2a1b;
-  color: white;
-
-  padding: 5px 10px;
-  border-radius: 6px;
-
-  font-size: .75rem;
-  z-index: 2;
 }
 
 .info-libro {
@@ -436,10 +401,7 @@ textarea:focus-visible {
   border-radius: 2px;
   background: rgba(0, 0, 0, 0.55);
   color: var(--blanco);
-}
-
-.portada-envoltorio {
-  position: relative;
+  z-index: 2;
 }
 
 /* ---------- Pie de página ---------- */
@@ -591,18 +553,17 @@ textarea:focus-visible {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-}
+} 
 
 .grilla-formulario .columna-completa {
   grid-column: 1 / -1;
 }
 
-.mensaje-error {
-  color: var(--vino);
-  font-size: 0.78rem;
-  min-height: 16px;
-  display: block;
-  margin-top: 2px;
+
+.mensaje-error,
+.banner-aviso.error {
+  color: #7a1f1f !important; 
+  font-weight: 600;
 }
 
 .acciones-formulario {
@@ -793,8 +754,16 @@ textarea:focus-visible {
   }
 
   .grilla-formulario {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: 1fr; /* se caambiado a 1 sola columna en móvil */
+    gap: 16px;
   }
+  /* Icono de usuario estilizado en el panel de perfil activo */
+.icono-usuario-perfil {
+  color: #7a1f1f; 
+  margin-right: 20px;
+  font-size: 0.10em; 
+}
 
   .acerca-proyecto {
     grid-template-columns: 1fr;
