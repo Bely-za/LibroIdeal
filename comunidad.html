@@ -102,7 +102,7 @@
             <span class="mensaje-error" id="error-confirmar-password"></span>
           </div>
 
-          <div class="campo columna-completa">
+          <div class="campo columna-completa"> 
             <label for="genero-favorito">Género favorito</label>
             <select id="genero-favorito" required>
               <option value="">Selecciona uno</option>
@@ -182,10 +182,16 @@
           <button class="boton boton-dorado" type="submit">Publicar libro</button>
         </div>
       </form>
+      <div id="contenedor-mis-libros" style="margin-top: 30px;">
+        <h3>Mis Libros Publicados</h3>
+        <div id="lista-libros-comunidad" class="lista-registros">
+          <!-- Aquí se cargarán dinámicamente los libros con JS -->
+        </div>
+      </div>
     </section>
   </main>
   <script src="js/comunidad.js"></script>
-<footer class="pie">
+  <footer class="pie">
     <div class="pie-grid">
 
       <div>

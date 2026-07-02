@@ -1,5 +1,5 @@
 /* ============================================
-   LibroIdeal — Hoja de estilos principal
+   LibroIdeal — Hoja de estilos principal Bely
    ============================================ */
 
 :root {
@@ -74,13 +74,19 @@ h3 {
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--marron);
+  transition: .3s
+}
+
+.logo:hover {
+  text-shadow:
+    0 0 8px rgba(202, 162, 58, .5),
+    0 0 15px rgba(202, 162, 58, .3);
 }
 
 .logo .corona {
   color: var(--dorado-claro);
   font-size: 1.1rem;
 }
-
 .menu-principal {
   display: flex;
   align-items: center;
@@ -296,6 +302,7 @@ textarea:focus-visible {
 }
 
 /* ---------- Tarjetas de libros ---------- */
+
 .grid-libros {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -316,6 +323,7 @@ textarea:focus-visible {
   transform: translateY(-4px);
   box-shadow: var(--sombra);
 }
+
 
 .portada-envoltorio {
   position: relative;
@@ -559,7 +567,6 @@ textarea:focus-visible {
   grid-column: 1 / -1;
 }
 
-
 .mensaje-error,
 .banner-aviso.error {
   color: #7a1f1f !important; 
@@ -762,7 +769,7 @@ textarea:focus-visible {
 .icono-usuario-perfil {
   color: #7a1f1f; 
   margin-right: 20px;
-  font-size: 0.10em; 
+  font-size: 1.1rem; 
 }
 
   .acerca-proyecto {
@@ -784,4 +791,4 @@ textarea:focus-visible {
   .encabezado {
     padding: 12px 4%;
   }
-}
+}  

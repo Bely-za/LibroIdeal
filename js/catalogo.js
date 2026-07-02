@@ -13,7 +13,7 @@ let ESTADO = {
   soloFavoritos: false,
 };
 
-function crearTarjetaCatalogo(libro) {
+function crearTarjetaCatalogo(libro) { // aquí tambien muestra si el libro ya fue marcado como favorito por el usuario
   const esFav = esFavorito(libro.id);
   const precioTexto = libro.precio > 0
     ? `₡${libro.precio.toLocaleString("es-CR")}`
@@ -61,12 +61,12 @@ function crearTarjetaCatalogo(libro) {
   return articulo;
 }
 
-function obtenerGenerosUnicos(libros) {
+function obtenerGenerosUnicos(libros) { // los generos que ya tiene el sistema y si el usuario agrego otro 
   const generos = new Set(libros.map((libro) => libro.genero));
   return Array.from(generos).sort();
 }
 
-function construirChipsGenero(libros) {
+function construirChipsGenero(libros) { //actualiza el catalogo de generos y gene los botones 
   const contenedor = document.getElementById("contenedor-generos");
   const generos = obtenerGenerosUnicos(libros);
 
@@ -88,7 +88,7 @@ function construirChipsGenero(libros) {
   });
 }
 
-function normalizar(texto) {
+function normalizar(texto) { // Convierte el texto a minúsculas y elimina tildespara que la busqueda sea mas flexible
   return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
@@ -114,7 +114,7 @@ function filtrarLibros() {
   return resultado;
 }
 
-function aplicarFiltrosYRenderizar() {
+function aplicarFiltrosYRenderizar() { // actualiza la vista del catálogo mmuestralos libros que cumplen los filtros
   const contenedor = document.getElementById("contenedor-catalogo");
   const estadoVacio = document.getElementById("estado-vacio");
   const resumen = document.getElementById("resumen-resultados");
@@ -123,7 +123,7 @@ function aplicarFiltrosYRenderizar() {
 
   contenedor.innerHTML = "";
 
-  if (resultados.length === 0) {
+  if (resultados.length === 0) { // si no existen resultados, se muestra un mensaje.
     estadoVacio.hidden = false;
     contenedor.style.display = "none";
   } else {
@@ -132,7 +132,7 @@ function aplicarFiltrosYRenderizar() {
     resultados.forEach((libro) => contenedor.appendChild(crearTarjetaCatalogo(libro)));
   }
 
-  const totalFavoritos = obtenerFavoritos().length;
+  const totalFavoritos = obtenerFavoritos().length; //únicamente los libros marcados como favoritos
   resumen.innerHTML = `Mostrando <strong>${resultados.length}</strong> de ${TODOS_LOS_LIBROS.length} libros &nbsp;·&nbsp; Favoritos guardados: <span class="contador-favoritos">${totalFavoritos}</span>`;
 }
 

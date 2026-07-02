@@ -3,9 +3,9 @@
 // ============================================
 // LIBRO IDEAL - CONFIGURACIÓN BASE
 // ============================================
+
 const CLAVE_PERFIL = "libroideal_perfil";
-const CLAVE_LIBROS_COMUNIDAD = "libroideal_libros";
-const CLAVE_RECOMENDACIONES = "libroideal_recomendaciones";
+const CLAVE_LIBROS_COMUNIDAD = "libroideal_libros_comunidad"; 
 
 // ============================================
 // HELPERS LOCALSTORAGE
@@ -25,7 +25,7 @@ function mostrarError(id, mensaje) {
   const el = document.getElementById(id);
   if (el) {
     el.textContent = mensaje;
-    el.style.color = "#7a1f1f"; // Fuerza el color rojo directamente
+    el.style.color = "#7a1f1f";
   }
 }
 
@@ -38,7 +38,6 @@ function mostrarAviso(id, mensaje, tipo) {
   if (!el) return;
 
   el.textContent = mensaje;
-  // Se añade siempre 'error' o 'exito' dinámicamente
   el.className = `banner-aviso mostrar ${tipo}`;
 
   setTimeout(() => {
@@ -93,37 +92,28 @@ function mostrarPerfilGuardado() {
   const contenedor = document.getElementById("perfil-guardado");
   const formInscripcion = document.getElementById("formulario-inscripcion");
   const formLibro = document.getElementById("formulario-libro");
-  
+
   if (!contenedor) return;
 
   const datos = JSON.parse(localStorage.getItem(CLAVE_PERFIL));
 
   if (!datos) {
-    // --- USUARIO NO LOGUEADO ---
     contenedor.innerHTML = "";
     contenedor.style.display = "none";
-    
-    // Mostrar Registro si existe
+
     if (formInscripcion) formInscripcion.closest('.panel').style.display = "block";
-    
-    // Ocultar sección de compartir libros
     if (formLibro) formLibro.closest('.panel').style.display = "none";
     return;
   }
 
-  // --- USUARIO LOGUEADO ---
   contenedor.style.display = "block";
-  
-  // Ocultar sección de Registro por completo
   if (formInscripcion) formInscripcion.closest('.panel').style.display = "none";
-  
-  // Mostrar la sección de Compartir un Libro por completo
   if (formLibro) formLibro.closest('.panel').style.display = "block";
 
- contenedor.innerHTML = `
+  contenedor.innerHTML = `
     <div class="tarjeta-registro">
       <div class="cuerpo-registro">
-        <h4><i class="fa-solid fa-user icono-usuario-perfil"></i> ${datos.nombre}</h4>
+        <h4><i class="fa-solid fa-user"></i> ${datos.nombre}</h4>
         <span class="meta-registro">
           ${datos.correo}<br>
           Género Favorito: ${datos.generoFavorito}<br>
@@ -138,7 +128,7 @@ function mostrarPerfilGuardado() {
     localStorage.removeItem(CLAVE_PERFIL);
     mostrarPerfilGuardado();
     if (formInscripcion) formInscripcion.reset();
-    mostrarAviso("aviso-inscripcion", "Sesión cerrada.", "error"); // Alertas en rojo al cerrar
+    mostrarAviso("aviso-inscripcion", "Sesión cerrada.", "error");
   });
 }
 
@@ -165,31 +155,116 @@ function inicializarInscripcion() {
     }
 
     localStorage.setItem(CLAVE_PERFIL, JSON.stringify(datos));
-    
-    // Refrescar la interfaz para que oculte/muestre los paneles
     mostrarPerfilGuardado();
     formulario.reset();
   });
 }
 
 // ============================================
-// 2. COMPARTIR LIBROS
+// 2. GESTIÓN DE LIBROS (RENDER, ELIMINAR Y VALIDACIÓN)
 // ============================================
+
+// Renderiza dinámicamente la lista de libros de la comunidad con opción de eliminar
+function renderizarLibrosComunidad() {
+  const contenedor = document.getElementById("lista-libros-comunidad");
+  if (!contenedor) return;
+
+  const libros = leerLista(CLAVE_LIBROS_COMUNIDAD);
+  contenedor.innerHTML = "";
+
+  if (libros.length === 0) {
+    contenedor.innerHTML = "<p class='descripcion-panel'>No has publicado ningún libro todavía.</p>";
+    return;
+  }
+
+  libros.forEach((libro) => {
+    const tarjeta = document.createElement("div");
+    tarjeta.className = "tarjeta-registro";
+    tarjeta.innerHTML = `
+      <div class="cuerpo-registro">
+        <h4>${libro.titulo}</h4>
+        <span class="meta-registro">
+          Autor: ${libro.autor} | Género: ${libro.genero} | Formato: ${libro.formato}
+        </span>
+        <p class="texto-registro">${libro.descripcion}</p>
+      </div>
+      <button class="boton-eliminar" data-id="${libro.id}">Eliminar</button>
+    `;
+    contenedor.appendChild(tarjeta);
+  });
+}
+
+// Configura las validaciones en tiempo real (Input) para evitar errores del usuario
+function inicializarValidacionTiempoRealLibro() {
+  const campos = ["titulo-libro", "autor-libro", "descripcion-libro"];
+  
+  campos.forEach(id => {
+    const input = document.getElementById(id);
+    if (!input) return;
+
+    input.addEventListener("input", () => {
+      if (input.value.trim() === "") {
+        input.style.borderColor = "#7a1f1f";
+      } else {
+        input.style.borderColor = "#ece4d2"; // Color crema original
+      }
+    });
+  });
+}
+
 function inicializarFormularioLibro() {
   const formulario = document.getElementById("formulario-libro");
   if (!formulario) return;
 
+  renderizarLibrosComunidad();
+  inicializarValidacionTiempoRealLibro();
+
+  // Capturar clicks de eliminación mediante delegación de eventos
+  const contenedorLista = document.getElementById("lista-libros-comunidad");
+  if (contenedorLista) {
+    contenedorLista.addEventListener("click", (e) => {
+      if (e.target.classList.contains("boton-eliminar")) {
+        const idEliminar = Number(e.target.dataset.id);
+        let libros = leerLista(CLAVE_LIBROS_COMUNIDAD);
+        
+        // Filtrar para remover el seleccionado
+        libros = libros.filter(libro => libro.id !== idEliminar);
+        guardarLista(CLAVE_LIBROS_COMUNIDAD, libros);
+        
+        // Actualizar interfaz 
+        renderizarLibrosComunidad();
+        mostrarAviso("aviso-libro", "Libro eliminado correctamente.", "error");
+      }
+    });
+  }
+
   formulario.addEventListener("submit", (e) => {
     e.preventDefault();
 
+    const titulo = document.getElementById("titulo-libro").value.trim();
+    const autor = document.getElementById("autor-libro").value.trim();
+    const genero = document.getElementById("genero-libro").value;
+    const formato = document.getElementById("formato-libro").value;
+    const enlace = document.getElementById("enlace-libro").value.trim();
+    const descripcion = document.getElementById("descripcion-libro").value.trim();
+
+    // Validación  antes de guardar
+    if (!titulo || !autor || !genero || !formato || !descripcion) {
+      mostrarAviso("aviso-libro", "Por favor, completa todos los campos obligatorios.", "error");
+      return;
+    }
+
     const libro = {
-      id: Date.now(),
-      titulo: document.getElementById("titulo-libro").value,
-      autor: document.getElementById("autor-libro").value,
-      genero: document.getElementById("genero-libro").value,
-      formato: document.getElementById("formato-libro").value,
-      enlace: document.getElementById("enlace-libro").value,
-      descripcion: document.getElementById("descripcion-libro").value,
+      id: Date.now(), // ID único requerido
+      titulo,
+      autor,
+      genero,
+      estado: "Disponible", // Requerido para que el catálogo no falle
+      formato,
+      enlace,
+      descripcion,
+      imagen: "img/libros/principito.png", // Imageen temporal por defecto para evitar rotos en el catálogo
+      precio: 0,
       fechaCreacion: new Date().toISOString()
     };
 
@@ -199,6 +274,9 @@ function inicializarFormularioLibro() {
 
     mostrarAviso("aviso-libro", "¡Libro publicado con éxito!", "exito");
     formulario.reset();
+    
+    // Actualizar la lista en pantalla 
+    renderizarLibrosComunidad();
   });
 }
 

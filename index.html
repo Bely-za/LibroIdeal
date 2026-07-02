@@ -44,8 +44,8 @@
     </button>
 
   </header>
+
   <main>
-    <!-- Sección visual principal -->
     <section class="hero">
       <div class="hero-contenido">
         <h1>Bienvenido a LibroIdeal</h1>
@@ -65,9 +65,7 @@
     <div class="contenedor">
       <div class="divisor-decorativo">&#10022;</div>
 
-      <!-- Presentación del problema -->
       <section aria-labelledby="titulo-problema">
-
         <h2 id="titulo-problema">Leer no debería ser tan difícil</h2>
         <p class="cita-destacada">Muchos lectores quieren acceso a buenos libros sin gastar de más ni recurrir a páginas
           dudosas.</p>
@@ -80,7 +78,6 @@
         </p>
       </section>
 
-      <!-- Público objetivo y propuesta de solución -->
       <section class="bloque-beneficios" aria-label="Para quién es LibroIdeal y qué ofrece">
         <div class="tarjeta-beneficio">
           <span class="icono-beneficio">&#128214;</span>
@@ -102,7 +99,6 @@
         </div>
       </section>
 
-      <!-- Aqi va la parte de Lo más buscado: contenido dinámico-->
       <section aria-labelledby="titulo-destacados">
         <span class="eyebrow">Lo más buscado</span>
         <h2 id="titulo-destacados">Libros que la comunidad está leyendo</h2>
@@ -115,8 +111,7 @@
         </div>
       </section>
 
-      <!-- Aquí hablaremos un como acerca del proyecto -->
-      <section class="acerca-proyecto" aria-labelledby="titulo-acerca">
+      <section class="acerca-proyecto" aria-labelledby="titulo-acerca" style="margin-bottom: 40px;">
         <div>
           <h2 id="titulo-acerca">Acerca de LibroIdeal</h2>
           <p>
@@ -127,6 +122,43 @@
         </div>
         <a href="comunidad.html" class="boton boton-dorado">Únete a la comunidad</a>
       </section>
+
+      <section class="panel" aria-labelledby="titulo-recomendaciones" style="margin-top: 40px;">
+        <h2 id="titulo-recomendaciones">Deja tu recomendación</h2>
+        <p class="descripcion-panel">Cuéntale a la comunidad por qué vale la pena leer un libro.</p>
+
+        <div class="banner-aviso" id="aviso-recomendacion" role="status"></div>
+
+        <form id="formulario-recomendacion" novalidate>
+          <div class="grilla-formulario">
+            <div class="campo">
+              <label for="titulo-recomendado">Título del libro</label>
+              <input type="text" id="titulo-recomendado" required minlength="2" />
+              <span class="mensaje-error" id="error-titulo-recomendado"></span>
+            </div>
+            <div class="campo">
+              <label for="autor-recomendado">Autor</label>
+              <input type="text" id="autor-recomendado" required minlength="2" />
+              <span class="mensaje-error" id="error-autor-recomendado"></span>
+            </div>
+            <div class="campo columna-completa">
+              <label for="texto-recomendacion">Tu recomendación</label>
+              <textarea id="texto-recomendacion" rows="3" required minlength="10"></textarea>
+              <span class="mensaje-error" id="error-texto-recomendacion"></span>
+            </div>
+          </div>
+          <div class="acciones-formulario">
+            <button type="submit" class="boton boton-dorado">Publicar recomendación</button>
+            <button type="button" id="boton-limpiar-recomendaciones" class="boton boton-borde">Limpiar todas</button>
+          </div>
+        </form>
+
+        <div id="lista-recomendaciones" class="lista-registros" style="margin-top:24px;" aria-live="polite"></div>
+        <p id="estado-vacio-recomendaciones" class="descripcion-panel" style="display:none;">
+          Aún no hay recomendaciones. ¡Sé la primera persona en publicar una!
+        </p>
+      </section>
+
     </div>
   </main>
 
@@ -167,6 +199,7 @@
       &copy; 2026 LibroIdeal. Proyecto académico — ISW-521 Programación en Ambiente Web I.
     </p>
   </footer>
+
   <script src="js/utilidades.js"></script>
   <script src="js/inicio.js"></script>
 </body>

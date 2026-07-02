@@ -1,12 +1,12 @@
 // ============================================
 // LibroIdeal — utilidades.js
-// Funciones compartidas por todas las páginas
+// Funciones compartidas por las páginas( )
 // ============================================
 
 // --- Menú móvil ---
 function inicializarMenuMovil() {
   const boton = document.querySelector(".menu-toggle");
-  const menu = document.querySelector(".menu-principal");
+  const menu = document.querySelector(".menu-principal"); 
   if (!boton || !menu) return;
 
   boton.addEventListener("click", () => {
@@ -15,7 +15,8 @@ function inicializarMenuMovil() {
   });
 }
 
-// --- Claves de localStorage usadas en todo el sitio ---
+// --- Claves de localStorage ---
+//Aquí guadrar las claves del local para no estar escribien el sting y no equivocarme *mejorar*
 const CLAVE_FAVORITOS = "libroideal_favoritos";
 const CLAVE_RECOMENDACIONES = "libroideal_recomendaciones";
 const CLAVE_LIBROS_COMUNIDAD = "libroideal_libros_comunidad";
@@ -46,8 +47,8 @@ function obtenerFavoritos() {
 
 function esFavorito(idLibro) {
   return obtenerFavoritos().includes(idLibro);
-}
-
+} 
+//Esta funcion va a estar tanto en inico como en el catalogo (aquí para qur no repetir código)
 function alternarFavorito(idLibro) {
   const favoritos = obtenerFavoritos();
   const indice = favoritos.indexOf(idLibro);
@@ -71,7 +72,7 @@ async function cargarCatalogo() {
 
 // Combina el catálogo base con los libros que la comunidad ha subido
 async function cargarCatalogoCompleto() {
-  const base = await cargarCatalogo();
+  const base = await cargarCatalogo(); //Trae los libros estáticos del archivo JSON
   const comunidad = leerLista(CLAVE_LIBROS_COMUNIDAD);
   return base.concat(comunidad);
 }
